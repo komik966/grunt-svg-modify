@@ -17,14 +17,12 @@ module.exports = function(grunt) {
 
     grunt.registerMultiTask('svg_modify', 'Resize and colorize svg-images', function() {
 
-        var cwd = this.data.cwd,
-            src = cwd + this.data.src,
-            dest = cwd + this.data.dest,
+        var src = this.data.src,
+            dest = this.data.dest,
+            options = this.data.options,
             currentFolder = __dirname,
             templatesFolder = path.resolve(currentFolder, "../templates"),
             assetsFolder = path.resolve(currentFolder, "../assets");
-
-
 
         function getFolder(filePath) {
             var pathArray = filePath.split(path.sep);
@@ -69,61 +67,63 @@ module.exports = function(grunt) {
         }
 
         function processFolder(folderPath) {
-            var configPath = grunt.file.expand(folderPath + "/*.json")[0];
-            var folderName = path.basename(folderPath);
+            // var configPath = grunt.file.expand(folderPath + "/*.json")[0];
+            // var folderName = path.basename(folderPath);
 
-            if (!configPath) {
-                grunt.log.error("No config in folder '" + folderName + "'");
-                return;
-            }
+            // if (!configPath) {
+            //     grunt.log.error("No config in folder '" + folderName + "'");
+            //     return;
+            // }
 
             var changesParams = {
                 "inputFolder": folderPath,
-                "outputFolder": dest
+                "outputFolder": dest,
+                "sizes": options.sizes,
+                "colors": options.colors
             };
 
-            var folderOptionsFile = grunt.file.readJSON(configPath);
-            var folderOptions = {};
+            // var folderOptionsFile = grunt.file.readJSON(configPath);
+            // var folderOptions = {};
 
-            var defaults = folderOptionsFile["defaults"];
-            var variations = folderOptionsFile["variations"];
-            var color = folderOptionsFile["defaultColor"];
+            // var defaults = folderOptionsFile["defaults"];
+            // var variations = folderOptionsFile["variations"];
+            // var color = folderOptionsFile["defaultColor"];
 
             // colorize after setting defaults
-            if (color) {
-                changesParams["defaultColor"] = color;
-            }
+            // if (color) {
+            //     changesParams["defaultColor"] = color;
+            // }
 
-            if (defaults && variations) {
+            // if (defaults && variations) {
 
                 // 1. defaults
-                changesParams["inputFolder"] = folderPath;
-                changesParams["outputFolder"] = "temp/";
-                changesParams["folderOptions"] = defaults;
+                // changesParams["inputFolder"] = folderPath;
+                // changesParams["outputFolder"] = "temp/";
+                // changesParams["folderOptions"] = defaults;
 
-                svgmodify.makeChanges(changesParams);
+                // svgmodify.makeChanges(changesParams);
 
                 // 2. variations
-                changesParams["inputFolder"] = "temp/" + folderName;
-                changesParams["outputFolder"] = dest;
-                changesParams["folderOptions"] = variations;
-                changesParams["defaultColor"] = "";
+                // changesParams["inputFolder"] = src;
+                // changesParams["outputFolder"] = dest;
+                // changesParams["folderOptions"] = variations;
+                // changesParams["defaultColor"] = "";
 
                 svgmodify.makeChanges(changesParams);
 
-            } else {
+            // } else {
 
-                if (defaults) {
-                    folderOptions = defaults;
-                } else if (variations) {
-                    folderOptions = variations;
-                }
-                changesParams["folderOptions"] = folderOptions;
-                svgmodify.makeChanges(changesParams);
+            //     if (defaults) {
+            //         folderOptions = defaults;
+            //     } else if (variations) {
+            //         folderOptions = variations;
+            //     }
+            //     changesParams["folderOptions"] = folderOptions;
+            //     svgmodify.makeChanges(changesParams);
 
-            }
+            // }
 
-            createControlPage(dest, folderName, color);
+            // createControlPage(dest, folderName, color);
 
         }
 
