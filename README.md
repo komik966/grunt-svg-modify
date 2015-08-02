@@ -1,5 +1,9 @@
 # grunt-svg-modify
 
+This fork is quick modified version for my own purposes but you may find it useful.
+I eliminated the need of config.json, instead configuration of svg transformations is defined in Gruntfile as options.
+## Example:
+
 > Resize and color svg-images
 
 Modify SVG by JSON.
