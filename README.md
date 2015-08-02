@@ -1,8 +1,21 @@
 # grunt-svg-modify
 
 This fork is quick modified version for my own purposes but you may find it useful.
-I eliminated the need of config.json, instead configuration of svg transformations is defined in Gruntfile as options.
-## Example:
+I eliminated the need of config.json, instead configuration of svg transformations is defined in Gruntfile as options:
+```js
+svg_modify: {
+    android: {
+        src: 'icons/',
+        dest: 'android/',
+        options:{
+            colors:[
+                "ffebee","ffcdd2","ef9a9a","e57373","ef5350","f44336","e53935","d32f2f","c62828"
+            ],
+            sizes: [300]
+        }
+    }
+}
+```
 
 > Resize and color svg-images
 
